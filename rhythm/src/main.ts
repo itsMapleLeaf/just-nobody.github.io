@@ -1,52 +1,27 @@
-import * as pixi from 'pixi.js'
+const white = 0xffffff
 
-function init() {
-  const canvas = document.querySelector('canvas')
-  if (!canvas) return
+const app = new PIXI.Application(800, 450)
+document.body.appendChild(app.view)
 
-  const ctx = canvas.getContext('2d')
-  if (!ctx) return
+const pointer = new PIXI.Graphics()
+pointer.beginFill(white)
+pointer.arc(0, 0, 50, 0, Math.PI * 2)
+pointer.endFill()
+pointer.visible = false
+app.stage.addChild(pointer)
 
-  canvas.width = 800
-  canvas.height = 450
+const interaction = new PIXI.interaction.InteractionManager(app.renderer)
+interaction.addListener('pointerdown', (event: PIXI.interaction.InteractionEvent) => {
+  pointer.visible = true
+})
 
-  const pointer = { x: 0, y: 0, down: false }
+interaction.addListener('pointerup', (event: PIXI.interaction.InteractionEvent) => {
+  pointer.visible = false
+})
 
-  canvas.addEventListener('pointerdown', event => {
-    event.preventDefault()
-    pointer.down = true
-    updateObjectPosition(pointer, event.offsetX, event.offsetY, canvas)
-  })
+interaction.addListener('pointermove', (event: PIXI.interaction.InteractionEvent) => {
+  pointer.x = event.data.global.x
+  pointer.y = event.data.global.y
+})
 
-  canvas.addEventListener('pointerup', event => {
-    event.preventDefault()
-    pointer.down = false
-  })
-
-  canvas.addEventListener('pointermove', event => {
-    event.preventDefault()
-    updateObjectPosition(pointer, event.offsetX, event.offsetY, canvas)
-  })
-
-  requestAnimationFrame(function loop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    if (pointer.down) {
-      circle(ctx, pointer.x, pointer.y, 50)
-    }
-    requestAnimationFrame(loop)
-  })
-}
-
-function updateObjectPosition(object: { x: number, y: number }, x: number, y: number, canvas: HTMLCanvasElement) {
-  const canvasRect = canvas.getBoundingClientRect()
-  object.x = x * (canvas.width / canvasRect.width)
-  object.y = y * (canvas.height / canvasRect.height)
-}
-
-function circle(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number) {
-  ctx.beginPath()
-  ctx.arc(x, y, radius, 0, Math.PI * 2)
-  ctx.fill()
-}
-
-init()
+app.start()
