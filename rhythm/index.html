@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>touch input test</title>
+  </head>
+  <body>
+    <canvas></canvas>
+    <script>
+      const canvas = document.querySelector('canvas')
+      const ctx = canvas.getContext('2d')
+
+      canvas.width = 800
+      canvas.height = 450
+
+      ctx.beginPath()
+      ctx.arc(100, 100, 100, 0, Math.PI * 2)
+      ctx.fill()
+    </script>
+  </body>
+</html>
