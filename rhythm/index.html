@@ -56,10 +56,10 @@
         })
       }
 
-      function updateObjectPosition(pointer, x, y, canvas) {
+      function updateObjectPosition(object, x, y, canvas) {
         const canvasRect = canvas.getBoundingClientRect()
-        pointer.x = x * (canvas.width / canvasRect.width)
-        pointer.y = y * (canvas.height / canvasRect.height)
+        object.x = x * (canvas.width / canvasRect.width)
+        object.y = y * (canvas.height / canvasRect.height)
       }
 
       function circle(ctx, x, y, radius) {
