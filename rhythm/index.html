@@ -18,57 +18,11 @@
         max-width: 100vw;
       }
     </style>
+
+    <script defer src="node_modules/pixi.js/dist/pixi.min.js"></script>
+    <script defer src="src/main.js"></script>
   </head>
   <body>
     <canvas></canvas>
-    <script>
-      function init() {
-        const canvas = document.querySelector('canvas')
-        const ctx = canvas.getContext('2d')
-
-        canvas.width = 800
-        canvas.height = 450
-
-        const pointer = { x: 0, y: 0, down: false }
-
-        canvas.addEventListener('pointerdown', event => {
-          event.preventDefault()
-          pointer.down = true
-          updateObjectPosition(pointer, event.offsetX, event.offsetY, canvas)
-        })
-
-        canvas.addEventListener('pointerup', event => {
-          event.preventDefault()
-          pointer.down = false
-        })
-
-        canvas.addEventListener('pointermove', event => {
-          event.preventDefault()
-          updateObjectPosition(pointer, event.offsetX, event.offsetY, canvas)
-        })
-
-        requestAnimationFrame(function loop() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height)
-          if (pointer.down) {
-            circle(ctx, pointer.x, pointer.y, 50)
-          }
-          requestAnimationFrame(loop)
-        })
-      }
-
-      function updateObjectPosition(object, x, y, canvas) {
-        const canvasRect = canvas.getBoundingClientRect()
-        object.x = x * (canvas.width / canvasRect.width)
-        object.y = y * (canvas.height / canvasRect.height)
-      }
-
-      function circle(ctx, x, y, radius) {
-        ctx.beginPath()
-        ctx.arc(x, y, radius, 0, Math.PI * 2)
-        ctx.fill()
-      }
-
-      init()
-    </script>
   </body>
 </html>
